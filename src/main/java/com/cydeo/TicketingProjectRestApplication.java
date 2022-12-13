@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class TicketingRestMineApplication {
+public class TicketingProjectRestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TicketingRestMineApplication.class, args);
+        SpringApplication.run(TicketingProjectRestApplication.class, args);
     }
 
     @Bean
@@ -17,4 +17,5 @@ public class TicketingRestMineApplication {
 
         return new ModelMapper();
     }
+
 }

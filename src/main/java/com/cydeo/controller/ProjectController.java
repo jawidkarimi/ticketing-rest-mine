@@ -1,8 +1,8 @@
 package com.cydeo.controller;
 
+
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.ResponseWrapper;
-import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +24,20 @@ public class ProjectController {
     @GetMapping
     @RolesAllowed("Manager")
     public ResponseEntity<ResponseWrapper> getProjects(){
-      List<ProjectDTO> projectDTOList = projectService.listAllProjects();
-      return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved", projectDTOList, HttpStatus.OK));
+        List<ProjectDTO> projectDTOList = projectService.listAllProjects();
+        return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved",projectDTOList, HttpStatus.OK));
     }
 
     @GetMapping("/{code}")
     @RolesAllowed("Manager")
-    public ResponseEntity<ResponseWrapper> getProjectsByCode(@PathVariable ("code") String projectCode){
-        ProjectDTO projectDTO = projectService.getByProjectCode(projectCode);
-        return ResponseEntity.ok(new ResponseWrapper("Project is successfully retrived",projectDTO,HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> getProjectByCode(@PathVariable("code") String code){
+        ProjectDTO projectDTO = projectService.getByProjectCode(code);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully retrieved",projectDTO, HttpStatus.OK));
+
     }
 
     @PostMapping
-    @RolesAllowed({"Admin","Manager"} )
+    @RolesAllowed({"Admin","Manager"})
     public ResponseEntity<ResponseWrapper> createProject(@RequestBody ProjectDTO project){
         projectService.save(project);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("Project is successfully created",HttpStatus.CREATED));
@@ -47,26 +48,35 @@ public class ProjectController {
     public ResponseEntity<ResponseWrapper> updateProject(@RequestBody ProjectDTO project){
         projectService.update(project);
         return ResponseEntity.ok(new ResponseWrapper("Project is successfully updated", HttpStatus.OK));
+
     }
 
     @DeleteMapping("/{projectcode}")
     @RolesAllowed("Manager")
-    public ResponseEntity<ResponseWrapper> deleteProject(@PathVariable ("projectcode") String projectCode){
-        projectService.delete(projectCode);
-        return ResponseEntity.ok(new ResponseWrapper("project is successfully deleted",HttpStatus.OK));
+    public ResponseEntity<ResponseWrapper> deleteProject(@PathVariable("projectcode") String projectcode){
+        projectService.delete(projectcode);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully deleted", HttpStatus.OK));
+
+
     }
 
     @GetMapping("/manager/project-status")
     @RolesAllowed("Manager")
     public ResponseEntity<ResponseWrapper> getProjectByManager(){
         List<ProjectDTO> projectDTOList = projectService.listAllProjectDetails();
-        return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved", projectDTOList,HttpStatus.OK));
+        return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved",projectDTOList, HttpStatus.OK));
     }
 
     @PutMapping("/manager/complete/{projectCode}")
     @RolesAllowed("Manager")
     public ResponseEntity<ResponseWrapper> managerCompleteProject(@PathVariable("projectCode") String projectCode){
         projectService.complete(projectCode);
-        return ResponseEntity.ok(new ResponseWrapper("Project successfully completed",HttpStatus.OK));
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully completed", HttpStatus.OK));
+
     }
+
+
+
+
+
 }
